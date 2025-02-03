@@ -8,6 +8,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Parisienne&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="name-container" id="nameContainer">
+        <div class="input-box">
+            <div class="heart-animation">💖</div>
+            <h2>Please enter your name </h2>
+            <form id="nameForm" onsubmit="handleNameSubmit(event)">
+                <input type="text" id="userName" required placeholder="Name here" autofocus>
+                <button type="submit" class="btn name-submit-btn">Continue to Question 🌹</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="mainContainer" style="display: none;">
+
     <div class="container">
         <div class="hearts-background"></div>
         <div class="content">
@@ -34,6 +47,21 @@
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
+        let userName = "";
+
+        document.getElementById('userName').addEventListener('input', function(e) {
+            this.style.backgroundColor = this.value ? '#fff' : '#fff';
+        });
+
+        function handleNameSubmit(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('userName');
+            if (nameInput.checkValidity()) {
+                userName = nameInput.value.trim() || "My Love";
+                document.getElementById('nameContainer').style.display = 'none';
+                document.getElementById('mainContainer').style.display = 'block';
+            }
+        }
         function respondYes() {
             const audio = document.getElementById('backgroundAudio');
             audio.pause();
@@ -41,7 +69,7 @@
             const message = document.getElementById('responseMessage');
             
             container.classList.add('celebrate');
-            message.innerHTML = "💝 Angelo Ragay sent a response 💝";
+            message.innerHTML = `${userName} 💝 sent a response`;
             message.style.display = 'block';
 
             // Confetti effect
