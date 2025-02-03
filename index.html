@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine 💖</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Parisienne&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="hearts-background"></div>
+        <div class="content">
+            <div class="heart-animation">💖</div>
+            <h1 class="question">Will You Be My Valentine?</h1>
+            <div class="buttons">
+                <button class="btn yes-btn" onclick="respondYes()">Syempre 🌹</button>
+                <button class="btn no-btn" onclick="showVideo()">Pass ako lods</button>
+            </div>
+            <div class="hidden-message" id="responseMessage"></div>
+            
+            <audio id="backgroundAudio" loop>
+                <source src="bg.mp3" type="audio/mpeg">
+            </audio>
+
+            <div class="video-container" id="videoContainer">
+                <video controls autoplay muted loop id="valentineVideo">
+                    <source src="vid.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        function respondYes() {
+            const audio = document.getElementById('backgroundAudio');
+            audio.pause();
+            const container = document.querySelector('.container');
+            const message = document.getElementById('responseMessage');
+            
+            container.classList.add('celebrate');
+            message.innerHTML = "💝 Yay! kiss mo ko please po 💝";
+            message.style.display = 'block';
+
+            // Confetti effect
+            const duration = 3000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 7,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff0000', '#ff69b4', '#ffffff']
+                });
+                confetti({
+                    particleCount: 7,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff0000', '#ff69b4', '#ffffff']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+
+            setTimeout(() => {
+                window.location.href = 'https://www.instagram.com/_stantan/'; 
+            }, 3000);
+        }
+
+        function showVideo() {
+        const videoContainer = document.getElementById('videoContainer');
+        const noBtn = document.querySelector('.no-btn');
+        const question = document.querySelector('.question');
+        const yesBtn = document.querySelector('.yes-btn');
+        const buttonsDiv = document.querySelector('.buttons');
+
+        // Hide elements
+        noBtn.style.display = 'none';
+        question.style.display = 'none';
+        
+        // Show and play video
+        videoContainer.style.display = 'block';
+        
+        
+        yesBtn.style.position = 'fixed';
+        yesBtn.style.top = `${videoContainer.offsetTop + videoContainer.offsetHeight + 1}px`;
+        yesBtn.style.left = '50%';
+        yesBtn.style.transform = 'translateX(-50%)';
+        yesBtn.style.zIndex = '1001';
+
+        // Adjust position on window resiz
+        window.addEventListener('resize', () => {
+            yesBtn.style.top = `${videoContainer.offsetTop + videoContainer.offsetHeight + 20}px`;
+        });
+        const audio = document.getElementById('backgroundAudio');
+        audio.play().catch(error => {
+                console.log('Audio play prevented:', error);
+            });
+        const video = document.getElementById('valentineVideo');
+        video.play().catch(error => {
+            console.log('Video play prevented:', error);
+        });
+    }
+    </script>
+</body>
+</html>
